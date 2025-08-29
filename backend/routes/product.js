@@ -1,0 +1,10 @@
+const express = require("express");
+const { CreateProduct,ProductList,ProductDelete,ProductShow,ProductUpdate } = require("../Controllers/ProductController");
+const auth = require("../middleware/authMiddleware.js");
+const router = express.Router();
+router.post("/create",auth, CreateProduct);
+router.get("/list",auth, ProductList);
+router.get("/delete",auth, ProductDelete);
+router.get("/show",auth, ProductShow);
+router.get("/update",auth, ProductUpdate);
+module.exports = router;

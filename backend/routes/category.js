@@ -1,0 +1,10 @@
+const express = require("express");
+const { CreateCategory,categoryList,categoryDelete,categoryShow,categoryUpdate } = require("../Controllers/CategoryController");
+const auth = require("../middleware/authMiddleware.js");
+const router = express.Router();
+router.post("/create",auth, CreateCategory);
+router.get("/list",auth, categoryList);
+router.get("/delete",auth, categoryDelete);
+router.get("/show",auth, categoryShow);
+router.get("/update",auth, categoryUpdate);
+module.exports = router;
