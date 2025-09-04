@@ -2,9 +2,9 @@ const Product = require("../Models/Product");
 
 const CreateProduct = async (req, res) => {
   try {
-    const { name, description, image, category_id, is_available, status } =
-      req.body;
-    // validation
+    const { name, description, category_id, is_available, status } = req.body;
+    const image = req.file ? req.file.filename : null;
+
     if (
       !name ||
       !description ||
@@ -40,10 +40,10 @@ const CreateProduct = async (req, res) => {
 
 const ProductList = async (req, res) => {
   try {
-    const categories = await Product.find({});
+    const product = await Product.find({});
     return res.status(200).json({
       message: "All Product Data Fetch Successfully!",
-      data: categories,
+      data: product,
     });
   } catch (error) {}
 };
@@ -74,9 +74,9 @@ const ProductShow = async (req, res) => {
   try {
     const { _id } = req.body;
 
-    const Product = await Product.findById(_id);
+    const item = await Product.findById(_id);
 
-    if (!Product) {
+    if (!item) {
       return res.status(404).json({
         message: "Product Not Found!",
       });
@@ -84,7 +84,7 @@ const ProductShow = async (req, res) => {
 
     return res.status(200).json({
       message: "Product Get Successfully!",
-      data: Product,
+      data: item,
     });
   } catch (error) {
     return res.status(500).json({
@@ -93,25 +93,31 @@ const ProductShow = async (req, res) => {
     });
   }
 };
+
 const ProductUpdate = async (req, res) => {
   try {
-    const { _id, name, description } = req.body;
+    const { _id, name, description, category_id, is_available, status } =
+      req.body;
 
-    const Product = await Product.findById(_id);
+    const item = await Product.findById(_id);
 
-    if (!Product) {
+    if (!item) {
       return res.status(404).json({
         message: "Product Not Found!",
       });
     }
-    if (name) Product.name = name;
-    if (description) Product.description = description;
-
-    await Product.save();
+    const image = req.file ? req.file.filename : null;
+    if (name) item.name = name;
+    if (description) item.description = description;
+    if (category_id) item.category_id = category_id;
+    if (is_available) item.is_available = is_available;
+    if (status) item.status = status;
+    if (image) item.image = image;
+    await item.save();
 
     return res.status(200).json({
       message: "Product Update Successfully!",
-      data: Product,
+      data: item,
     });
   } catch (error) {
     return res.status(500).json({

@@ -2,7 +2,6 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes=require('./routes/userRoutes');
-const categoryRoutes=require('./routes/category');
 
 
 dotenv.config();
@@ -12,6 +11,7 @@ const app = express();
 app.use(express.json());
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/category", require("./routes/category"));
+app.use("/api/product", require("./routes/product"));
 
 // Simple route
 app.get("/", (req, res) => {

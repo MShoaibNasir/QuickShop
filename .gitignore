@@ -31,3 +31,8 @@ Thumbs.db
 out/
 coverage/
 .tmp/
+# Ignore everything in backend/uploads
+/backend/uploads/*
+
+# But keep the folder itself
+!/backend/uploads/.gitkeep
